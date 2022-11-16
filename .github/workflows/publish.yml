@@ -4,6 +4,10 @@ on:
     branches: 
       - master
     types: [closed]
+  
+  workflow_dispatch:
+    branches: 
+      - master
 jobs:
   build:
     if: ${{ github.event.pull_request.merged }}
