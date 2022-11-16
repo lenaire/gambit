@@ -35,9 +35,9 @@ Gambit is a simple class that implements [Declarative Programming](https://en.wi
 
 ## Usage
 ```
-import { gambit, Rules } from "Gambit";
+import { Gambit, Rules } from "Gambit";
 
-const rules: Rules = [
+const rules: Rules<any, string> = [
     {
         clauses: [
             {
@@ -75,7 +75,6 @@ const rules: Rules = [
 const gambit = new Gambit(rules);
 
 const getActiveFlags = async (): Promise<string[]> => {  
-  const gambit = new Gambit(rules);
   let flags: any[] = [];
 
   await fetch("/featureApi/v1/toggles")
@@ -86,35 +85,6 @@ const getActiveFlags = async (): Promise<string[]> => {
 
   return flags.map((flag) => gambit.evaluate(flag)?.assignment);
 };
-```
-
-## Arrays
-When working with values, values can accept any value or an array of values.  When comparing an array against another array this should be created as a multidimentional array.
-
-```
-const someRule = [
-  {
-    clauses: [
-      {
-        variable: "array",
-        operator: "equals",
-        values: ["foo", "bar"]// this will compare each value in the array with the variable
-      }
-    ]
-  }
-]
-
-const otherRule = [
-  {
-    clauses: [
-      {
-        variable: "array",
-        operator: "equals",
-        values: [["foo", "bar"]]// this will the compare the array with the variable
-      }
-    ]
-  }
-]
 ```
 
 ## Alternative Imperitive Example
@@ -151,6 +121,36 @@ const rules = [
     }
 ]
 ```
+
+## Arrays
+When working with values, values can accept any value or an array of values.  When comparing an array against another array this should be created as a multidimentional array.
+
+```
+const someRule = [
+  {
+    clauses: [
+      {
+        variable: "array",
+        operator: "equals",
+        values: ["foo", "bar"]// this will compare each value in the array with the variable
+      }
+    ]
+  }
+]
+
+const otherRule = [
+  {
+    clauses: [
+      {
+        variable: "array",
+        operator: "equals",
+        values: [["foo", "bar"]]// this will the compare the array with the variable
+      }
+    ]
+  }
+]
+```
+
 Assignments can accept a function with the fact object or any other as a parameter for more complex assignments.  This concept can be abstracted to implement any number of functions or additional properties and DSL ontop of the basic rules evaluation.  Feel free to examine the tests for some realistic and relatively contrived examples of applicable domains.  If you find yourself having to write a lot of complex if statements give Gambit a TRY!
 
 ## Installation
