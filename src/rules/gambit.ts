@@ -1,4 +1,3 @@
-import memoize from "@github/memoize/decorator";
 import { IGambit, Rules, Rule } from "./types";
 
 const deepGetObjectByKey = (entity: any, pathArr: string[]): any => {
@@ -78,7 +77,6 @@ export default class Gambit<TFact, TValue> implements IGambit<TFact, TValue> {
     this._rules = rules;
   }
 
-  @memoize()
   evaluate(fact: TFact): Rule<TFact, TValue> | undefined {
     return this._rules.find((rule) => {
       const clauseResults = rule.clauses.map((clause) => {
