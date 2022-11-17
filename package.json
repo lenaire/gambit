@@ -1,6 +1,6 @@
 {
   "name": "@lenaire/gambit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A rules execution library",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -36,5 +36,8 @@
     "ts-jest": "^28.0.7",
     "ttypescript": "^1.5.13",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@github/memoize": "^1.1.1"
   }
 }
