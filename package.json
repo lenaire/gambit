@@ -20,7 +20,8 @@
     "test": "jest --watchAll=false",
     "test:coverage": "jest --coverage",
     "build": "tsc",
-    "prettier": "prettier --write src"
+    "prettier": "prettier --write src",
+    "postPublish": "npm publish --ignore-scripts --@lenaire:registry='https://npm.pkg.github.com'"
   },
   "author": "Wivvlenaire Jean-Baptiste",
   "license": "ISC",
@@ -36,5 +37,8 @@
     "ts-jest": "^28.0.7",
     "ttypescript": "^1.5.13",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@github/memoize": "^1.1.1"
   }
 }
