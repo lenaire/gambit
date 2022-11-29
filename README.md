@@ -4,9 +4,9 @@
 Gambit is a simple class that implements [Declarative Programming](https://en.wikipedia.org/wiki/Declarative_programming).  Declarative Programming allows abstracting away control flow for stating what outcomes are desired.  The rules contract attempts to follow a more General Purpose Language to offload learning additional terms for development and better conceptualize outcomes.  Gambit utilizes standard programming operators along with [logic gates](https://www.techtarget.com/whatis/definition/logic-gate-AND-OR-XOR-NOT-NAND-NOR-and-XNOR?vgnextfmt=print#xor) for more complex operations.  Preconfigured definitions allows for evaluating operations without long blocks of complex control flow.  This can limit tightly coupled business logic in an application.  If/Else and Case Statements become instructions, focus on resolutions rather than complex business rules.
 
 ## Example Use Cases
-* [CaC](https://octopus.com/blog/config-as-code-what-is-it-how-is-it-beneficial#:~:text=Config%20as%20Code%20(CaC)%20separates,version%20control%20for%20your%20configuration.) is a concept of storing application configuration along side code.  An example would be feature toggling.
-* Dynamic Forms
-* Other business logic requiring deep object analysis and control flow
+* [CaC](https://octopus.com/blog/config-as-code-what-is-it-how-is-it-beneficial#:~:text=Config%20as%20Code%20(CaC)%20separates,version%20control%20for%20your%20configuration.) is a concept of storing application configuration along side code
+* [Feature toggles](https://medium.com/@wivvlenaire/javascript-a-use-case-for-declarative-programming-7c8092969438)
+* Other business logic with complex control flow
 
 ## Operators
 | Syntax | Description |
