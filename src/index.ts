@@ -1,3 +1,3 @@
-export * from "./rules/types";
+export * from "./proofs/types";
 
-export * from "./rules/gambit";
+export * from "./proofs/gambit";

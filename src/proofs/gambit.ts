@@ -1,13 +1,21 @@
 import memoize from "@github/memoize/decorator";
-import { IGambit, Rules, Rule } from "./types";
+import { IGambit, Proofs, Proof } from "./types";
 
 const deepGetObjectByKey = (entity: any, pathArr: string[]): any => {
-  // TODO: handle array?...
-  return pathArr.reduce((obj, key) => obj?.[key], entity);
+  return pathArr.reduce((obj, key) => {
+    // if key is an array format []
+    if (/[0-9]/.test(key)) {
+      const index = key.replace(/[^0-9]/g, "");
+      const property = key.replace(/[^a-zA-Z]/g, "");
+      return obj?.[property]?.[index];
+    }
+
+    return obj?.[key];
+  }, entity);
 };
 
 export default class Gambit<TFact, TValue> implements IGambit<TFact, TValue> {
-  private _rules: Rules<TFact, TValue>;
+  private _proofs: Proofs<TFact, TValue>;
 
   private _logicGates = {
     AND: (values: boolean[]) => values.every((val) => val),
@@ -74,38 +82,38 @@ export default class Gambit<TFact, TValue> implements IGambit<TFact, TValue> {
     lessThan: (variable: TValue, value: TValue): boolean => variable < value,
   };
 
-  constructor(rules: Rules<TFact, TValue>) {
-    this._rules = rules;
+  constructor(proofs: Proofs<TFact, TValue>) {
+    this._proofs = proofs;
   }
 
   @memoize()
-  evaluate(fact: TFact): Rule<TFact, TValue> | undefined {
-    return this._rules.find((rule) => {
-      const clauseResults = rule.clauses.map((clause) => {
+  evaluate(fact: TFact): Proof<TFact, TValue> | undefined {
+    return this._proofs.find((proof) => {
+      const clauseResults = proof.statements.map((statement) => {
         // SPLIT THE FIELDS BY . NOTATION TO DETERMINE NESTED PROPERTIES
         const evaluators = { ...this._evaluators };
-        const keys = clause.variable.split(".");
+        const keys = statement.variable.split(".");
 
-        // GET THE VARIABLE FOR THE CURRENT RULE FROM THE FACT
+        // GET THE VARIABLE FOR THE CURRENT PROOF FROM THE FACT
         const variable = deepGetObjectByKey(fact, keys);
 
         // ONlY PERFORM EVALUATIONS IF THE VARIABLE EXISTS
         if (variable) {
-          if (Array.isArray(clause.values))
-            return clause.values.every((value) =>
-              evaluators[clause.operator](variable, value)
+          if (Array.isArray(statement.value))
+            return statement.value.every((value) =>
+              evaluators[statement.operator](variable, value)
             );
 
-          return evaluators[clause.operator](variable, clause.values);
+          return evaluators[statement.operator](variable, statement.value);
         }
         return false;
       });
 
-      if (clauseResults && rule.gate) {
-        return this._logicGates[rule.gate](clauseResults) && rule;
+      if (clauseResults && proof.logicGate) {
+        return this._logicGates[proof.logicGate](clauseResults) && proof;
       }
 
-      return clauseResults.every((clause) => clause) && rule;
+      return clauseResults.every((clause) => clause) && proof;
     });
   }
 }
