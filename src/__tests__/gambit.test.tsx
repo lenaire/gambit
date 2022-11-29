@@ -1,253 +1,288 @@
-import Gambit from "../rules/gambit";
-import { Rules } from "../rules/types";
+import Gambit from "../proofs/gambit";
+import { Proofs } from "../proofs/types";
 
 describe("Test Gambit", () => {
-  const rules: Rules<any, string | number> = [
+  const proofs: Proofs<any, string | number> = [
     {
-      clauses: [
+      statements: [
         {
           variable: "title",
           operator: "equals",
-          values: "Person",
+          value: "Person",
         },
       ],
-      assignment: () => "PersonForm",
+      outcome: () => "PersonForm",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "properties.productId.description",
           operator: "startsWith",
-          values: "The unique",
+          value: "The unique",
         },
       ],
-      assignment: () => "ProductControl",
+      outcome: () => "ProductControl",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "$id",
           operator: "contains",
-          values: "geographical-location",
+          value: "geographical-location",
         },
       ],
-      assignment: () => "GeographicalForm",
+      outcome: () => "GeographicalForm",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "properties.age.minimum",
           operator: "greaterThan",
-          values: 21,
+          value: 21,
         },
       ],
-      assignment: () => "AgeVerificationElement",
+      outcome: () => "AgeVerificationElement",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "properties.dimensions.properties.length.minimum",
           operator: "greaterThanOrEqualTo",
-          values: 100,
+          value: 100,
         },
       ],
-      assignment: (fact: any) => `${fact.$id}-Form`,
+      outcome: (fact: any) => `${fact.$id}-Form`,
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "properties.dimensions.properties.length.maximum",
           operator: "lessThanOrEqualTo",
-          values: 200,
+          value: 200,
         },
       ],
-      assignment: () => "AcmeForm",
+      outcome: () => "AcmeForm",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "properties.lastName.minimum",
           operator: "lessThan",
-          values: 40,
+          value: 40,
         },
       ],
-      assignment: () => "NameValidationElement",
+      outcome: () => "NameValidationElement",
     },
   ];
 
-  const gambit = new Gambit(rules);
+  const gambit = new Gambit(proofs);
 
-  const gatedRules: Rules<any, string | number> = [
+  const gatedProofs: Proofs<any, string | number> = [
     {
-      clauses: [
+      statements: [
         {
           variable: "project",
           operator: "equals",
-          values: "CMS",
+          value: "CMS",
         },
         {
           variable: "key",
           operator: "equals",
-          values: "Cache",
+          value: "Cache",
         },
         {
           variable: "environment",
           operator: "contains",
-          values: "PROD",
+          value: "PROD",
         },
       ],
-      gate: "AND",
-      assignment: "cacheIsEnabled",
+      logicGate: "AND",
+      outcome: "cacheIsEnabled",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "key",
           operator: "contains",
-          values: "widget",
+          value: "widget",
         },
         {
           variable: "key",
           operator: "startsWith",
-          values: "new",
+          value: "new",
         },
       ],
-      gate: "OR",
-      assignment: "newWidgetIsEnabled",
+      logicGate: "OR",
+      outcome: "newWidgetIsEnabled",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "description",
           operator: "equals",
-          values:
+          value:
             "Recommendations link for launching the new product application.",
         },
         {
           variable: "description",
           operator: "equals",
-          values: "Products link for launching the new product application.",
+          value: "Products link for launching the new product application.",
         },
       ],
-      gate: "XOR",
-      assignment: "productLinkIsEnabled",
+      logicGate: "XOR",
+      outcome: "productLinkIsEnabled",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "ttl",
           operator: "lessThanOrEqualTo",
-          values: 1668455494814,
+          value: 1668455494814,
         },
         {
           variable: "key",
           operator: "equals",
-          values: "recommendations",
+          value: "recommendations",
         },
       ],
-      gate: "NAND",
-      assignment: "recommendationsIsDisabled",
+      logicGate: "NAND",
+      outcome: "recommendationsIsDisabled",
     },
   ];
 
-  const gambitGated = new Gambit(gatedRules);
+  const gambitGated = new Gambit(gatedProofs);
 
-  const randomRules: Rules<any, any> = [
+  const randomProofs: Proofs<any, any> = [
     {
-      clauses: [
+      statements: [
         {
           variable: "firstName",
           operator: "endsWith",
-          values: "Bruce",
+          value: "Bruce",
         },
       ],
-      assignment: "Batman",
+      outcome: "Batman",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "identity",
           operator: "strictEquals",
-          values: {
+          value: {
             isSuperman: true,
           },
         },
       ],
-      assignment: "Cryptonian",
+      outcome: "Cryptonian",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "anime.characters",
           operator: "equals",
-          values: [["Levi", "Hange", "Eren", "Mikasa", "Armin"]],
+          value: [["Levi", "Hange", "Eren", "Mikasa", "Armin"]],
         },
       ],
-      assignment: "AOT",
+      outcome: "AOT",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "count",
           operator: "strictEquals",
-          values: 9,
+          value: 9,
         },
       ],
-      assignment: "limit9",
+      outcome: "limit9",
     },
   ];
 
-  const randomGambit = new Gambit(randomRules);
+  const randomGambit = new Gambit(randomProofs);
 
-  const otherRules: Rules<any, string | boolean> = [
+  const otherProofs: Proofs<any, string | boolean> = [
     {
-      clauses: [
+      statements: [
         {
           variable: "code",
           operator: "equals",
-          values: "Gold",
+          value: "Gold",
         },
         {
           variable: "coverageType",
           operator: "equals",
-          values: "Vehicle",
+          value: "Vehicle",
         },
       ],
-      gate: "XNOR",
-      assignment: "discountGoldVehicleEligible",
+      logicGate: "XNOR",
+      outcome: "discountGoldVehicleEligible",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "code",
           operator: "equals",
-          values: "Basic",
+          value: "Basic",
         },
         {
           variable: "isSafeDriver",
           operator: "equals",
-          values: false,
+          value: false,
         },
       ],
-      gate: "NOR",
-      assignment: "safeDriverDiscountEligible",
+      logicGate: "NOR",
+      outcome: "safeDriverDiscountEligible",
     },
     {
-      clauses: [
+      statements: [
         {
           variable: "code",
           operator: "equals",
-          values: "Gold",
+          value: "Gold",
         },
       ],
-      gate: "NOT",
-      assignment: "discountDisabled",
+      logicGate: "NOT",
+      outcome: "discountDisabled",
     },
   ];
 
-  const otherGatedRules = new Gambit(otherRules);
+  const otherGatedProofs = new Gambit(otherProofs);
 
-  it("should return the rule using the equals operator", () => {
+  const arrayProofs: Proofs<any, string> = [
+    {
+      statements: [
+        {
+          variable: "foo.array[0]",
+          operator: "equals",
+          value: "1",
+        },
+      ],
+      outcome: "array element located",
+    },
+    {
+      statements: [
+        {
+          variable: "foo.bar.array[0].property",
+          operator: "equals",
+          value: "bar",
+        },
+      ],
+      outcome: "array element located",
+    },
+    {
+      statements: [
+        {
+          variable: "foo.bar.array[1].property",
+          operator: "equals",
+          value: "foo",
+        },
+      ],
+      outcome: "array element located",
+    },
+  ];
+
+  const arrayGambit = new Gambit(arrayProofs);
+
+  it("should return the proof using the equals operator", () => {
     const customerSchema = {
       $id: "https://example.com/person.schema.json",
       $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -273,10 +308,10 @@ describe("Test Gambit", () => {
 
     const result = gambit.evaluate(customerSchema);
 
-    expect(result?.assignment?.()).toEqual("PersonForm");
+    expect(result?.outcome?.()).toEqual("PersonForm");
   });
 
-  it("should return the rule using the startsWith operator", () => {
+  it("should return the proof using the startsWith operator", () => {
     const paymentSchema = {
       $schema: "https://json-schema.org/draft/2020-12/schema",
       $id: "https://example.com/product.schema.json",
@@ -294,10 +329,10 @@ describe("Test Gambit", () => {
 
     const result = gambit.evaluate(paymentSchema);
 
-    expect(result?.assignment?.()).toEqual("ProductControl");
+    expect(result?.outcome?.()).toEqual("ProductControl");
   });
 
-  it("should return the rule using the contains operator", () => {
+  it("should return the proof using the contains operator", () => {
     const geographicalSchema = {
       $id: "https://example.com/geographical-location.schema.json",
       $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -322,10 +357,10 @@ describe("Test Gambit", () => {
 
     const result = gambit.evaluate(geographicalSchema);
 
-    expect(result?.assignment?.()).toEqual("GeographicalForm");
+    expect(result?.outcome?.()).toEqual("GeographicalForm");
   });
 
-  it("should return the rule using the greaterThan operator", () => {
+  it("should return the proof using the greaterThan operator", () => {
     const customerSchema = {
       $id: "https://example.com/person.schema.json",
       $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -343,10 +378,10 @@ describe("Test Gambit", () => {
 
     const result = gambit.evaluate(customerSchema);
 
-    expect(result?.assignment?.()).toEqual("AgeVerificationElement");
+    expect(result?.outcome?.()).toEqual("AgeVerificationElement");
   });
 
-  it("should return the rule using the greaterThanOrEqualTo operator", () => {
+  it("should return the proof using the greaterThanOrEqualTo operator", () => {
     const productSchema = {
       $schema: "https://json-schema.org/draft/2020-12/schema",
       $id: "https://example.com/product.schema.json",
@@ -368,12 +403,12 @@ describe("Test Gambit", () => {
 
     const result = gambit.evaluate(productSchema);
 
-    expect(result?.assignment?.(productSchema)).toEqual(
+    expect(result?.outcome?.(productSchema)).toEqual(
       "https://example.com/product.schema.json-Form"
     );
   });
 
-  it("should return the rule using the lessThanOrEqualTo operator", () => {
+  it("should return the proof using the lessThanOrEqualTo operator", () => {
     const productSchema = {
       $schema: "https://json-schema.org/draft/2020-12/schema",
       $id: "https://example.com/product.schema.json",
@@ -395,10 +430,10 @@ describe("Test Gambit", () => {
 
     const result = gambit.evaluate(productSchema);
 
-    expect(result?.assignment?.()).toEqual("AcmeForm");
+    expect(result?.outcome?.()).toEqual("AcmeForm");
   });
 
-  it("should return the rule using the lessThan operator", () => {
+  it("should return the proof using the lessThan operator", () => {
     const customerSchema = {
       $id: "https://example.com/person.schema.json",
       $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -415,10 +450,10 @@ describe("Test Gambit", () => {
 
     const result = gambit.evaluate(customerSchema);
 
-    expect(result?.assignment?.()).toEqual("NameValidationElement");
+    expect(result?.outcome?.()).toEqual("NameValidationElement");
   });
 
-  it("should return the rule using the endsWith Operator", () => {
+  it("should return the proof using the endsWith Operator", () => {
     const customer = {
       firstName: "Mr Bruce",
       lastName: "Wayne",
@@ -426,10 +461,10 @@ describe("Test Gambit", () => {
 
     const result = randomGambit.evaluate(customer);
 
-    expect(result?.assignment).toEqual("Batman");
+    expect(result?.outcome).toEqual("Batman");
   });
 
-  it("should return the rule using strictEquals for an object comparison", () => {
+  it("should return the proof using strictEquals for an object comparison", () => {
     const customer = {
       firstName: "Clark",
       lastName: "Kent",
@@ -440,10 +475,10 @@ describe("Test Gambit", () => {
 
     const result = randomGambit.evaluate(customer);
 
-    expect(result?.assignment).toEqual("Cryptonian");
+    expect(result?.outcome).toEqual("Cryptonian");
   });
 
-  it("should return the rule using equals for an array comparison", () => {
+  it("should return the proof using equals for an array comparison", () => {
     const show = {
       anime: {
         season: 4,
@@ -453,20 +488,20 @@ describe("Test Gambit", () => {
 
     const result = randomGambit.evaluate(show);
 
-    expect(result?.assignment).toEqual("AOT");
+    expect(result?.outcome).toEqual("AOT");
   });
 
-  it("should return the rule using strictEquals for a number", () => {
+  it("should return the proof using strictEquals for a number", () => {
     const limits = {
       count: 9,
     };
 
     const result = randomGambit.evaluate(limits);
 
-    expect(result?.assignment).toEqual("limit9");
+    expect(result?.outcome).toEqual("limit9");
   });
 
-  it("should return the rule using the AND gate", () => {
+  it("should return the proof using the AND gate", () => {
     const environmentToggle = {
       project: "CMS",
       key: "Cache",
@@ -476,10 +511,10 @@ describe("Test Gambit", () => {
 
     const result = gambitGated.evaluate(environmentToggle);
 
-    expect(result?.assignment).toEqual("cacheIsEnabled");
+    expect(result?.outcome).toEqual("cacheIsEnabled");
   });
 
-  it("should return the rule using the OR gate", () => {
+  it("should return the proof using the OR gate", () => {
     const environmentToggle = {
       project: "CRM",
       key: "newWidget",
@@ -490,10 +525,10 @@ describe("Test Gambit", () => {
 
     const result = gambitGated.evaluate(environmentToggle);
 
-    expect(result?.assignment).toEqual("newWidgetIsEnabled");
+    expect(result?.outcome).toEqual("newWidgetIsEnabled");
   });
 
-  it("should return the rule using the XOR gate", () => {
+  it("should return the proof using the XOR gate", () => {
     const environmentToggle = {
       project: "Navigation",
       key: "productFeature",
@@ -503,10 +538,10 @@ describe("Test Gambit", () => {
 
     const result = gambitGated.evaluate(environmentToggle);
 
-    expect(result?.assignment).toEqual("productLinkIsEnabled");
+    expect(result?.outcome).toEqual("productLinkIsEnabled");
   });
 
-  it("should return the rule using the NAND gate", () => {
+  it("should return the proof using the NAND gate", () => {
     const environmentToggle = {
       project: "Product Application",
       key: "recommendations",
@@ -517,46 +552,96 @@ describe("Test Gambit", () => {
 
     const result = gambitGated.evaluate(environmentToggle);
 
-    expect(result?.assignment).toEqual("recommendationsIsDisabled");
+    expect(result?.outcome).toEqual("recommendationsIsDisabled");
   });
 
-  it("should return the rule using the NOT gate", () => {
+  it("should return the proof using the NOT gate", () => {
     const coverageType = {
       code: "Basic",
       coverageType: "Vehicle",
     };
 
-    const result = otherGatedRules.evaluate(coverageType);
+    const result = otherGatedProofs.evaluate(coverageType);
 
-    expect(result?.assignment).toEqual("discountDisabled");
+    expect(result?.outcome).toEqual("discountDisabled");
   });
 
-  it("should return the rule using the NOR gate", () => {
+  it("should return the proof using the NOR gate", () => {
     const coverageType = {
       code: "Silver",
       coverageType: "Vehicle",
       isSafeDriver: true,
     };
 
-    const result = otherGatedRules.evaluate(coverageType);
+    const result = otherGatedProofs.evaluate(coverageType);
 
-    expect(result?.assignment).toEqual("safeDriverDiscountEligible");
+    expect(result?.outcome).toEqual("safeDriverDiscountEligible");
   });
 
-  it("should return the rule using the XNOR gate", () => {
+  it("should return the proof using the XNOR gate", () => {
     const coverageType = {
       code: "Gold",
       coverageType: "Vehicle",
     };
 
-    const result = otherGatedRules.evaluate(coverageType);
+    const result = otherGatedProofs.evaluate(coverageType);
 
-    expect(result?.assignment).toEqual("discountGoldVehicleEligible");
+    expect(result?.outcome).toEqual("discountGoldVehicleEligible");
   });
 
-  it("should return undefined when no rule is matched", () => {
+  it("should return undefined when no proof is matched", () => {
     const emptyResponse = {};
     const result = gambit.evaluate(emptyResponse);
+
+    expect(result).toBeUndefined();
+  });
+
+  it("should test searching array indexes", () => {
+    const arrayTest = {
+      foo: {
+        array: [1],
+      },
+    };
+    const result = arrayGambit.evaluate(arrayTest);
+
+    expect(result?.outcome).toEqual("array element located");
+  });
+
+  it("should test searching array indexes returning an object value", () => {
+    const arrayTest = {
+      foo: {
+        bar: {
+          array: [{ property: "bar" }],
+        },
+      },
+    };
+    const result = arrayGambit.evaluate(arrayTest);
+
+    expect(result?.outcome).toEqual("array element located");
+  });
+
+  it("should test searching multiple array indexes returning an object value", () => {
+    const arrayTest = {
+      foo: {
+        bar: {
+          array: [{ property: "bar" }, { property: "foo" }],
+        },
+      },
+    };
+    const result = arrayGambit.evaluate(arrayTest);
+
+    expect(result?.outcome).toEqual("array element located");
+  });
+
+  it("should return null if the array element doesn't exist for the given index", () => {
+    const arrayTest = {
+      foo: {
+        bar: {
+          array: [{ bar: 1 }],
+        },
+      },
+    };
+    const result = arrayGambit.evaluate(arrayTest);
 
     expect(result).toBeUndefined();
   });
