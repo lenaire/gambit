@@ -170,12 +170,12 @@ const otherProof = [
 Outcomes can accept a function with the fact object or any other as a parameter for more complex outcomes.  This concept can be abstracted to implement any number of functions or additional properties and DSL ontop of the basic proofs evaluation.  Feel free to examine the tests for some realistic and relatively contrived examples of applicable domains.  If you find yourself having to write a lot of complex if statements give Gambit a TRY!
 
 ## Installation
-Add a scoped registry in your .npmrc
+Create a Personal Access Token and add the org scoped registry with the PAT auth token in your .npmrc
 ```
 @lenaire:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken={YourPersonalAccessToken}
 registry=https://registry.npmjs.org
 ```
-
 Now the package can be installed
 ```
 npm install @lenaire/gambit@1.0.0
